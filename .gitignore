@@ -1,0 +1,47 @@
+# IDE
+.idea/
+*.iml
+
+# Build output
+/build/
+**/build/
+/out/
+
+# Gradle
+.gradle/
+gradle-app.setting
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Maven
+target/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+
+# IntelliJ run configs
+.idea/
+
+# Keep node modules if any
+node_modules/
+
+# Environment
+.env
+
