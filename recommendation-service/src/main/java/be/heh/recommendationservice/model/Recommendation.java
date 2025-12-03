@@ -1,4 +1,4 @@
-package main.java.be.heh.recommendationservice.model;
+package be.heh.recommendationservice.model;
 
 
 public class Recommendation {
@@ -9,14 +9,20 @@ public class Recommendation {
     private String content;
 
     // Mes constructeurs
+    public Recommendation() {}
+
     public Recommendation(int productId, int recommendationId, String author, int rate, String content) {
         this.productId = productId;
         this.recommendationId = recommendationId;
         this.author = author;
+        this.rate = rate;
+        this.content = content;
     }
     public Recommendation(int productId, String author, int rate, String content) {
         this.productId = productId;
         this.author = author;
+        this.rate = rate;
+        this.content = content;
     }
 
     // Mes getters et setters

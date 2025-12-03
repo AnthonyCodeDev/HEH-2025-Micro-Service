@@ -1,7 +1,7 @@
 package main.java.be.heh.recommendationservice.controller;
 
-import main.java.be.heh.recommendationservice.model.Recommendation;
-import main.java.be.heh.recommendationservice.service.RecommendationService;
+import be.heh.recommendationservice.model.Recommendation;
+import be.heh.recommendationservice.service.RecommendationService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 

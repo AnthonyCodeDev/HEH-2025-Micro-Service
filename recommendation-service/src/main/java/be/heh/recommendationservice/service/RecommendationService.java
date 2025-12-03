@@ -1,6 +1,6 @@
-package main.java.be.heh.recommendationservice.service;
+package be.heh.recommendationservice.service;
 
-import main.java.be.heh.recommendationservice.model.Recommendation;
+import be.heh.recommendationservice.model.Recommendation;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
