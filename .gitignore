@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # IDE
 .idea/
 *.iml
@@ -45,3 +46,6 @@ node_modules/
 # Environment
 .env
 
+=======
+.gradle/ 
+>>>>>>> origin/main
