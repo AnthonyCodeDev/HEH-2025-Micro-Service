@@ -17,6 +17,7 @@ public class RecommendationController {
         this.service = service;
     }
 
+
     @GetMapping("/{productId}")
     public Flux<Recommendation> getRecommendations(@PathVariable int productId) {
         return service.getRecommendations(productId);
