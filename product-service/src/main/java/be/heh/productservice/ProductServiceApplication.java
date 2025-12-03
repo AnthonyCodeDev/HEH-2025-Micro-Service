@@ -1,4 +1,4 @@
-package com.example.productservice;
+package be.heh.productservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,7 @@
-package com.example.productservice.controller;
+package be.heh.productservice.controller;
 
-import com.example.productservice.model.Product;
-import com.example.productservice.service.ProductService;
+import be.heh.productservice.model.Product;
+import be.heh.productservice.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 

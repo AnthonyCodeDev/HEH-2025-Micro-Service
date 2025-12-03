@@ -1,4 +1,4 @@
-package com.example.productservice;
+package be.heh.productservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

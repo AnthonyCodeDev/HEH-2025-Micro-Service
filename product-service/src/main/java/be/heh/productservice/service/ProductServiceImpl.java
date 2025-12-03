@@ -1,6 +1,6 @@
-package com.example.productservice.service;
+package be.heh.productservice.service;
 
-import com.example.productservice.model.Product;
+import be.heh.productservice.model.Product;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 

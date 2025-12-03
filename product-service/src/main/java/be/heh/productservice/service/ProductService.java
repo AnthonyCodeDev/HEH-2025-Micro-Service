@@ -1,6 +1,6 @@
-package com.example.productservice.service;
+package be.heh.productservice.service;
 
-import com.example.productservice.model.Product;
+import be.heh.productservice.model.Product;
 import reactor.core.publisher.Mono;
 
 public interface ProductService {

@@ -1,4 +1,4 @@
-package com.example.productservice.model;
+package be.heh.productservice.model;
 
 public class Product {
 
