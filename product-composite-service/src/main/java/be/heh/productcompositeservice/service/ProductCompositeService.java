@@ -51,7 +51,7 @@ public class ProductCompositeService {
 
         // 3. Récupérer les recommandations
         Recommendation[] recommendationsArray = restTemplate.getForObject(
-                recommendationServiceUrl + "/recommendations?productId=" + productId,
+                recommendationServiceUrl + "/recommendations/" + productId,
                 Recommendation[].class
         );
         List<Recommendation> recommendations = recommendationsArray != null ?
@@ -108,7 +108,7 @@ public class ProductCompositeService {
         restTemplate.delete(reviewServiceUrl + "/review?productId=" + productId);
 
         // 2. Supprimer les recommandations
-        restTemplate.delete(recommendationServiceUrl + "/recommendations?productId=" + productId);
+        restTemplate.delete(recommendationServiceUrl + "/recommendations/" + productId);
 
         // 3. Supprimer le produit
         restTemplate.delete(productServiceUrl + "/product/" + productId);

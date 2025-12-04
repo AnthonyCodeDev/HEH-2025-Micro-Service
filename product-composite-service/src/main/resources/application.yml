@@ -15,6 +15,18 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
+product:
+  service:
+    url: http://localhost:7002
+
+review:
+  service:
+    url: http://localhost:7004
+
+recommendation:
+  service:
+    url: http://localhost:7003
+
 ---
 spring:
   config:
@@ -22,3 +34,15 @@ spring:
       on-profile: docker
   kafka:
     bootstrap-servers: kafka:9092
+
+product:
+  service:
+    url: http://product-service:7002
+
+review:
+  service:
+    url: http://review-service:7004
+
+recommendation:
+  service:
+    url: http://recommendation-service:7003
