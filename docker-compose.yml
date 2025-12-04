@@ -57,6 +57,12 @@ services:
       - microservices-network
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   # Product Service
   product-service:
@@ -101,8 +107,10 @@ services:
     ports:
       - "7004:7004"
     depends_on:
-      - kafka
-      - mysql
+      kafka:
+        condition: service_started
+      mysql:
+        condition: service_healthy
     networks:
       - microservices-network
 

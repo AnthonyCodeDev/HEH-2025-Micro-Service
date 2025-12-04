@@ -23,21 +23,13 @@ public class ReviewServiceImpl {
 
     public Flux<Review> getReviews(int productId) {
         return repository.findByProductId(productId)
-                .map(entity -> {
-                    Review review = mapper.entityToApi(entity);
-                    review.setServiceAddress("localhost:7004");
-                    return review;
-                });
+                .map(entity -> mapper.entityToApi(entity, "localhost:7004"));
     }
 
     public Mono<Review> createReview(Review review) {
         ReviewEntity entity = mapper.apiToEntity(review);
         return repository.save(entity)
-                .map(savedEntity -> {
-                    Review savedReview = mapper.entityToApi(savedEntity);
-                    savedReview.setServiceAddress("localhost:7004");
-                    return savedReview;
-                });
+                .map(savedEntity -> mapper.entityToApi(savedEntity, "localhost:7004"));
     }
 
     public Mono<Void> deleteReviews(int productId) {

@@ -6,12 +6,7 @@ spring:
     name: recommendation-service
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: recommendation_db
-      authentication-database: admin
-      username: admin
-      password: password
+      uri: mongodb://admin:password@localhost:27017/recommendation_db?authSource=admin
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -30,11 +25,6 @@ spring:
       on-profile: docker
   data:
     mongodb:
-      host: mongodb
-      port: 27017
-      database: recommendation_db
-      authentication-database: admin
-      username: admin
-      password: password
+      uri: mongodb://admin:password@mongodb:27017/recommendation_db?authSource=admin
   kafka:
     bootstrap-servers: kafka:9092

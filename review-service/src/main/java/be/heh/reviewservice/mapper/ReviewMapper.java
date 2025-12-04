@@ -13,13 +13,13 @@ public interface ReviewMapper {
 
     @Mappings({
         @Mapping(target = "id", ignore = true),
-        @Mapping(target = "version", ignore = true),
-        @Mapping(target = "serviceAddress", ignore = true)
+        @Mapping(target = "version", ignore = true)
     })
     ReviewEntity apiToEntity(Review api);
 
-    @Mapping(target = "serviceAddress", ignore = true)
-    Review entityToApi(ReviewEntity entity);
+    @Mapping(source = "entity.productId", target = "productId")
+    @Mapping(source = "entity.reviewId", target = "reviewId")
+    Review entityToApi(ReviewEntity entity, String serviceAddress);
 
     List<Review> entityListToApiList(List<ReviewEntity> entity);
 }
