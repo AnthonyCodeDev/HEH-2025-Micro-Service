@@ -1,10 +1,11 @@
 @echo off
 echo ====================================
-echo Stopping Docker Compose...
+echo Stopping All Services...
 echo ====================================
 
 docker-compose down
 
+echo.
 echo ====================================
 echo All services stopped!
 echo ====================================
