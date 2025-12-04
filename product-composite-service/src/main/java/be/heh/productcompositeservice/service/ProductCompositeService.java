@@ -1,5 +1,6 @@
 package be.heh.productcompositeservice.service;
 
+import be.heh.productcompositeservice.exception.NotFoundException;
 import be.heh.productcompositeservice.model.Product;
 import be.heh.productcompositeservice.model.ProductAggregate;
 import be.heh.productcompositeservice.model.Recommendation;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -36,29 +38,37 @@ public class ProductCompositeService {
      * Récupère les informations agrégées d'un produit
      */
     public ProductAggregate getProductAggregate(int productId) {
-        // 1. Récupérer les informations du produit
-        Product product = restTemplate.getForObject(
-                productServiceUrl + "/product/" + productId,
-                Product.class
-        );
+        try {
+            // 1. Récupérer les informations du produit
+            Product product = restTemplate.getForObject(
+                    productServiceUrl + "/product/" + productId,
+                    Product.class
+            );
 
-        // 2. Récupérer les avis (reviews)
-        Review[] reviewsArray = restTemplate.getForObject(
-                reviewServiceUrl + "/review?productId=" + productId,
-                Review[].class
-        );
-        List<Review> reviews = reviewsArray != null ? Arrays.asList(reviewsArray) : List.of();
+            // 2. Récupérer les avis (reviews)
+            Review[] reviewsArray = restTemplate.getForObject(
+                    reviewServiceUrl + "/review?productId=" + productId,
+                    Review[].class
+            );
+            List<Review> reviews = reviewsArray != null ? Arrays.asList(reviewsArray) : List.of();
 
-        // 3. Récupérer les recommandations
-        Recommendation[] recommendationsArray = restTemplate.getForObject(
-                recommendationServiceUrl + "/recommendations/" + productId,
-                Recommendation[].class
-        );
-        List<Recommendation> recommendations = recommendationsArray != null ?
-                Arrays.asList(recommendationsArray) : List.of();
+            // 3. Récupérer les recommandations
+            Recommendation[] recommendationsArray = restTemplate.getForObject(
+                    recommendationServiceUrl + "/recommendations/" + productId,
+                    Recommendation[].class
+            );
+            List<Recommendation> recommendations = recommendationsArray != null ?
+                    Arrays.asList(recommendationsArray) : List.of();
 
-        // 4. Agréger toutes les données
-        return new ProductAggregate(product, reviews, recommendations);
+            // 4. Agréger toutes les données
+            return new ProductAggregate(product, reviews, recommendations);
+        } catch (HttpClientErrorException.NotFound ex) {
+            log.warn("Produit non trouvé avec l'ID: {}", productId);
+            throw new NotFoundException("Product composite not found with id: " + productId);
+        } catch (HttpClientErrorException ex) {
+            log.error("Erreur lors de l'appel au service: {}", ex.getMessage());
+            throw ex;
+        }
     }
 
     /**
