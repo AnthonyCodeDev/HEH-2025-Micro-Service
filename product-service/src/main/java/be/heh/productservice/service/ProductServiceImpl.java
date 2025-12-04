@@ -1,5 +1,7 @@
 package be.heh.productservice.service;
 
+import be.heh.productservice.exception.AlreadyExistsException;
+import be.heh.productservice.exception.NotFoundException;
 import be.heh.productservice.mapper.ProductMapper;
 import be.heh.productservice.model.Product;
 import be.heh.productservice.persistence.ProductEntity;
@@ -24,14 +26,14 @@ public class ProductServiceImpl implements ProductService {
     public Mono<Product> getProduct(int productId) {
         return repository.findByProductId(productId)
                 .map(mapper::entityToApi)
-                .switchIfEmpty(Mono.error(new RuntimeException("Product not found: " + productId)));
+                .switchIfEmpty(Mono.error(new NotFoundException("Product not found with id: " + productId)));
     }
 
     @Override
     public Mono<Product> createProduct(Product product) {
         return repository.findByProductId(product.getProductId())
                 .flatMap(existingProduct -> 
-                    Mono.<Product>error(new RuntimeException("Product already exists: " + product.getProductId()))
+                    Mono.<Product>error(new AlreadyExistsException("Product already exists with id: " + product.getProductId()))
                 )
                 .switchIfEmpty(
                     Mono.defer(() -> {

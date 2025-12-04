@@ -1,5 +1,7 @@
 package be.heh.recommendationservice.service;
 
+import be.heh.recommendationservice.exception.AlreadyExistsException;
+import be.heh.recommendationservice.exception.NotFoundException;
 import be.heh.recommendationservice.mapper.RecommendationMapper;
 import be.heh.recommendationservice.model.Recommendation;
 import be.heh.recommendationservice.persistence.RecommendationEntity;
@@ -23,12 +25,16 @@ public class RecommendationService {
 
     public Flux<Recommendation> getRecommendations(int productId) {
         return repository.findByProductId(productId)
-                .map(mapper::entityToApi);
+                .map(mapper::entityToApi)
+                .switchIfEmpty(Flux.error(new NotFoundException("No recommendations found for product id: " + productId)));
     }
 
     public Mono<Recommendation> createRecommendation(Recommendation recommendation) {
         RecommendationEntity entity = mapper.apiToEntity(recommendation);
-        return repository.save(entity).map(mapper::entityToApi);
+        return repository.save(entity)
+                .map(mapper::entityToApi)
+                .onErrorMap(e -> e.getMessage().contains("duplicate") || e.getMessage().contains("Duplicate"), 
+                    e -> new AlreadyExistsException("Recommendation already exists for product id: " + recommendation.getProductId() + " and recommendation id: " + recommendation.getRecommendationId()));
     }
 
     public Mono<Void> deleteRecommendations(int productId) {

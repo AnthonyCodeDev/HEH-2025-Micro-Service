@@ -1,6 +1,8 @@
 package be.heh.reviewservice.service;
 
 import be.heh.reviewservice.Modele.Review;
+import be.heh.reviewservice.exception.AlreadyExistsException;
+import be.heh.reviewservice.exception.NotFoundException;
 import be.heh.reviewservice.mapper.ReviewMapper;
 import be.heh.reviewservice.persistence.ReviewEntity;
 import be.heh.reviewservice.persistence.ReviewRepository;
@@ -23,13 +25,16 @@ public class ReviewServiceImpl {
 
     public Flux<Review> getReviews(int productId) {
         return repository.findByProductId(productId)
-                .map(entity -> mapper.entityToApi(entity, "localhost:7004"));
+                .map(entity -> mapper.entityToApi(entity, "localhost:7004"))
+                .switchIfEmpty(Flux.error(new NotFoundException("No reviews found for product id: " + productId)));
     }
 
     public Mono<Review> createReview(Review review) {
         ReviewEntity entity = mapper.apiToEntity(review);
         return repository.save(entity)
-                .map(savedEntity -> mapper.entityToApi(savedEntity, "localhost:7004"));
+                .map(savedEntity -> mapper.entityToApi(savedEntity, "localhost:7004"))
+                .onErrorMap(e -> e.getMessage().contains("Duplicate"), 
+                    e -> new AlreadyExistsException("Review already exists for product id: " + review.getProductId() + " and review id: " + review.getReviewId()));
     }
 
     public Mono<Void> deleteReviews(int productId) {
