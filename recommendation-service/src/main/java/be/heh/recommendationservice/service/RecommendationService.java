@@ -12,5 +12,6 @@ public class RecommendationService {
                 new Recommendation(productId, 2, "Alice", 4, "Très bon mais améliorable."),
                 new Recommendation(productId, 3, "Marc", 3, "Correct sans plus.")
         );
+
     }
 }

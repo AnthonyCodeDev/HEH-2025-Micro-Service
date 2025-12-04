@@ -1,4 +1,4 @@
-package be.heh.recommendationservice.model;
+package main.java.be.heh.recommendationservice.model;
 
 
 public class Recommendation {

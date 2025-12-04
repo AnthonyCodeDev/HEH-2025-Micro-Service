@@ -1,4 +1,4 @@
-package be.heh.recommendationservice.controller;
+package main.java.be.heh.recommendationservice.controller;
 
 import be.heh.recommendationservice.model.Recommendation;
 import be.heh.recommendationservice.service.RecommendationService;
