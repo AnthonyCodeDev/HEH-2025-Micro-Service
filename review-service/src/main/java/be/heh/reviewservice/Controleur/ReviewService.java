@@ -1,16 +1,22 @@
 package be.heh.reviewservice.Controleur;
 
 import be.heh.reviewservice.Modele.Review;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import be.heh.reviewservice.service.ReviewServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
-
-import java.util.ArrayList;
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class ReviewService {
+
+    private final ReviewServiceImpl reviewService;
+
+    @Autowired
+    public ReviewService(ReviewServiceImpl reviewService) {
+        this.reviewService = reviewService;
+    }
 
     /**
      * Implémentation de l'API: getReviews(int productId)
@@ -18,18 +24,24 @@ public class ReviewService {
      */
     @GetMapping(value = "/review", produces = "application/json")
     public Flux<Review> getReviews(@RequestParam(value = "productId", required = true) int productId) {
+        return reviewService.getReviews(productId);
+    }
 
-        // Comme demandé: "Ne pas implémenter les bases de données !!!"
-        // On retourne une liste simulée d'avis pour le produit demandé.
+    /**
+     * API pour créer un review
+     */
+    @PostMapping(value = "/review")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Review> createReview(@RequestBody Review review) {
+        return reviewService.createReview(review);
+    }
 
-        List<Review> list = new ArrayList<>();
-
-        // Simulation: on crée 3 avis fictifs pour l'ID produit reçu
-        list.add(new Review(productId, 1, "Auteur 1", "Sujet 1", "Contenu très positif", "localhost:7004"));
-        list.add(new Review(productId, 2, "Auteur 2", "Sujet 2", "Contenu assez neutre", "localhost:7004"));
-        list.add(new Review(productId, 3, "Auteur 3", "Sujet 3", "Contenu négatif", "localhost:7004"));
-
-        // En WebFlux, on encapsule la liste dans un Flux
-        return Flux.fromIterable(list);
+    /**
+     * API pour supprimer tous les reviews d'un produit
+     */
+    @DeleteMapping(value = "/review")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Mono<Void> deleteReviews(@RequestParam(value = "productId", required = true) int productId) {
+        return reviewService.deleteReviews(productId);
     }
 }

@@ -51,4 +51,52 @@ public class ProductCompositeService {
         // 4. Agréger toutes les données
         return new ProductAggregate(product, reviews, recommendations);
     }
+
+    /**
+     * Crée un produit composite avec ses reviews et recommandations
+     */
+    public void createCompositeProduct(ProductAggregate productAggregate) {
+        // 1. Créer le produit
+        restTemplate.postForObject(
+                PRODUCT_SERVICE_URL,
+                productAggregate.getProduct(),
+                Product.class
+        );
+
+        // 2. Créer les reviews
+        if (productAggregate.getReviews() != null) {
+            productAggregate.getReviews().forEach(review -> {
+                restTemplate.postForObject(
+                        "http://localhost:7004/review",
+                        review,
+                        Review.class
+                );
+            });
+        }
+
+        // 3. Créer les recommandations
+        if (productAggregate.getRecommendations() != null) {
+            productAggregate.getRecommendations().forEach(recommendation -> {
+                restTemplate.postForObject(
+                        RECOMMENDATION_SERVICE_URL,
+                        recommendation,
+                        Recommendation.class
+                );
+            });
+        }
+    }
+
+    /**
+     * Supprime un produit composite avec tous ses reviews et recommandations
+     */
+    public void deleteCompositeProduct(int productId) {
+        // 1. Supprimer les reviews
+        restTemplate.delete(REVIEW_SERVICE_URL + productId);
+
+        // 2. Supprimer les recommandations
+        restTemplate.delete(RECOMMENDATION_SERVICE_URL + productId);
+
+        // 3. Supprimer le produit
+        restTemplate.delete(PRODUCT_SERVICE_URL + productId);
+    }
 }
