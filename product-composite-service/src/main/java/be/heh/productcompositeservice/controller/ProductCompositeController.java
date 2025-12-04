@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/product-composite")
 public class ProductCompositeController {
@@ -31,8 +34,9 @@ public class ProductCompositeController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCompositeProduct(@RequestBody ProductAggregate productAggregate) {
+    public ProductAggregate createCompositeProduct(@RequestBody ProductAggregate productAggregate) {
         productCompositeService.createCompositeProduct(productAggregate);
+        return productAggregate;
     }
 
     /**
@@ -41,8 +45,11 @@ public class ProductCompositeController {
      * Exemple: DELETE http://localhost:7001/product-composite/1
      */
     @DeleteMapping("/{productId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCompositeProduct(@PathVariable int productId) {
+    public Map<String, String> deleteCompositeProduct(@PathVariable int productId) {
         productCompositeService.deleteCompositeProduct(productId);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Product composite deleted successfully");
+        response.put("productId", String.valueOf(productId));
+        return response;
     }
 }
