@@ -1,28 +1,17 @@
 @echo off
 echo ====================================
-echo Building all microservices...
+echo Building All Services...
 echo ====================================
 
-cd product-service
-echo Building product-service...
+echo Building all services with Gradle...
 call gradlew.bat clean build -x test
-cd ..
 
-cd recommendation-service
-echo Building recommendation-service...
-call gradlew.bat clean build -x test
-cd ..
+echo.
+echo Building Docker images...
+docker-compose build
 
-cd review-service
-echo Building review-service...
-call gradlew.bat clean build -x test
-cd ..
-
-cd product-composite-service
-echo Building product-composite-service...
-call gradlew.bat clean build -x test
-cd ..
-
+echo.
 echo ====================================
-echo All services built successfully!
+echo Build completed successfully!
+echo ====================================
 echo ====================================
