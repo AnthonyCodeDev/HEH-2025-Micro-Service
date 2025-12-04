@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  # Kafka et Zookeeper
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - microservices-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    networks:
+      - microservices-network
+
+  # Product Service
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    container_name: product-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "7002:7002"
+    depends_on:
+      - kafka
+    networks:
+      - microservices-network
+
+  # Recommendation Service
+  recommendation-service:
+    build:
+      context: ./recommendation-service
+      dockerfile: Dockerfile
+    container_name: recommendation-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "7003:7003"
+    depends_on:
+      - kafka
+    networks:
+      - microservices-network
+
+  # Review Service
+  review-service:
+    build:
+      context: ./review-service
+      dockerfile: Dockerfile
+    container_name: review-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "7004:7004"
+    depends_on:
+      - kafka
+    networks:
+      - microservices-network
+
+  # Product Composite Service
+  product-composite-service:
+    build:
+      context: ./product-composite-service
+      dockerfile: Dockerfile
+    container_name: product-composite-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "7001:7001"
+    depends_on:
+      - product-service
+      - recommendation-service
+      - review-service
+      - kafka
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge
