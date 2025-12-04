@@ -4,6 +4,14 @@ server:
 spring:
   application:
     name: recommendation-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: recommendation_db
+      authentication-database: admin
+      username: admin
+      password: password
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -20,5 +28,13 @@ spring:
   config:
     activate:
       on-profile: docker
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: recommendation_db
+      authentication-database: admin
+      username: admin
+      password: password
   kafka:
     bootstrap-servers: kafka:9092

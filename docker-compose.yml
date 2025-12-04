@@ -30,6 +30,36 @@ services:
     networks:
       - microservices-network
 
+  # MongoDB pour Product et Recommendation services
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      - microservices-network
+    volumes:
+      - mongodb_data:/data/db
+
+  # MySQL pour Review service
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: review_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    networks:
+      - microservices-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   # Product Service
   product-service:
     build:
@@ -42,6 +72,7 @@ services:
       - "7002:7002"
     depends_on:
       - kafka
+      - mongodb
     networks:
       - microservices-network
 
@@ -57,6 +88,7 @@ services:
       - "7003:7003"
     depends_on:
       - kafka
+      - mongodb
     networks:
       - microservices-network
 
@@ -72,6 +104,7 @@ services:
       - "7004:7004"
     depends_on:
       - kafka
+      - mysql
     networks:
       - microservices-network
 
@@ -96,3 +129,7 @@ services:
 networks:
   microservices-network:
     driver: bridge
+
+volumes:
+  mongodb_data:
+  mysql_data:

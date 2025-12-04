@@ -4,6 +4,14 @@ server:
 spring:
   application:
     name: review-service
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/review_db
+    username: user
+    password: password
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -20,5 +28,13 @@ spring:
   config:
     activate:
       on-profile: docker
+  r2dbc:
+    url: r2dbc:mysql://mysql:3306/review_db
+    username: user
+    password: password
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
   kafka:
     bootstrap-servers: kafka:9092
