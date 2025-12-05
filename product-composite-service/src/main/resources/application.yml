@@ -30,15 +30,15 @@ eureka:
 
 product:
   service:
-    url: http://localhost:7002
+    url: http://product
 
 review:
   service:
-    url: http://localhost:7004
+    url: http://review
 
 recommendation:
   service:
-    url: http://localhost:7003
+    url: http://recommendation
 
 ---
 spring:
@@ -55,12 +55,12 @@ eureka:
 
 product:
   service:
-    url: http://product-service:7002
+    url: http://product
 
 review:
   service:
-    url: http://review-service:7004
+    url: http://review
 
 recommendation:
   service:
-    url: http://recommendation-service:7003
+    url: http://recommendation
