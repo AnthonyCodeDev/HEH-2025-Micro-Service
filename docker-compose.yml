@@ -142,11 +142,10 @@ services:
     build:
       context: ./review-service
       dockerfile: Dockerfile
-    container_name: review-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
     ports:
-      - "7004:7004"
+      - "7004"
     depends_on:
       eureka-server:
         condition: service_healthy
