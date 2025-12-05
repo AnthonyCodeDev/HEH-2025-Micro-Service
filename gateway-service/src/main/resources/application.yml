@@ -7,6 +7,19 @@ spring:
   cloud:
     gateway:
       trusted-proxies: ".*"
+      routes:
+        - id: product-composite
+          uri: lb://product-composite
+          predicates:
+            - Path=/product-composite/**
+          filters:
+            - StripPrefix=1
+        - id: eureka-web
+          uri: http://${app.eureka-server}:8761
+          predicates:
+            - Path=/eureka/**
+          filters:
+            - StripPrefix=1
 
 app:
   eureka-server: localhost
