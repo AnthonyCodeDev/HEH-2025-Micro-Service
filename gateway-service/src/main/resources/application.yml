@@ -12,14 +12,12 @@ spring:
           uri: lb://product-composite
           predicates:
             - Path=/product-composite/**
-          filters:
-            - StripPrefix=1
-        - id: eureka-web
+        - id: eureka-web-start
           uri: http://${app.eureka-server}:8761
           predicates:
-            - Path=/eureka/**
+            - Path=/eureka/web
           filters:
-            - StripPrefix=1
+            - SetPath=/
 
 app:
   eureka-server: localhost
@@ -33,3 +31,12 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  eureka-server: eureka-server
