@@ -18,23 +18,27 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
   client:
     fetch-registry: true
     register-with-eureka: true
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    registryFetchIntervalSeconds: 5
     service-url:
       defaultZone: http://localhost:8761/eureka
 
 product:
   service:
-    url: http://localhost:7002
+    url: http://product
 
 review:
   service:
-    url: http://localhost:7004
+    url: http://review
 
 recommendation:
   service:
-    url: http://localhost:7003
+    url: http://recommendation
 
 ---
 spring:
@@ -51,12 +55,12 @@ eureka:
 
 product:
   service:
-    url: http://product-service:7002
+    url: http://product
 
 review:
   service:
-    url: http://review-service:7004
+    url: http://review
 
 recommendation:
   service:
-    url: http://recommendation-service:7003
+    url: http://recommendation

@@ -25,9 +25,9 @@ public class ProductCompositeService {
     private final String recommendationServiceUrl;
 
     public ProductCompositeService(RestTemplate restTemplate,
-                                   @Value("${product.service.url:http://localhost:7002}") String productServiceUrl,
-                                   @Value("${review.service.url:http://localhost:7004}") String reviewServiceUrl,
-                                   @Value("${recommendation.service.url:http://localhost:7003}") String recommendationServiceUrl) {
+                                   @Value("${product.service.url:http://product}") String productServiceUrl,
+                                   @Value("${review.service.url:http://review}") String reviewServiceUrl,
+                                   @Value("${recommendation.service.url:http://recommendation}") String recommendationServiceUrl) {
         this.restTemplate = restTemplate;
         this.productServiceUrl = productServiceUrl;
         this.reviewServiceUrl = reviewServiceUrl;
