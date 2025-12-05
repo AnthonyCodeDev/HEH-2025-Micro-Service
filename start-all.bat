@@ -3,7 +3,7 @@ echo ====================================
 echo Starting All Services with Docker...
 echo ====================================
 
-docker compose up -d --scale review-service=3
+docker compose up -d
 
 echo.
 echo ====================================

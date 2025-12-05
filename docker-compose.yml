@@ -86,6 +86,8 @@ services:
       context: ./eureka-server
       dockerfile: Dockerfile
     container_name: eureka-server
+    ports:
+      - "8761:8761"
     networks:
       - microservices-network
     healthcheck:
@@ -140,6 +142,7 @@ services:
     build:
       context: ./review-service
       dockerfile: Dockerfile
+    container_name: review-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
     ports:
@@ -162,6 +165,8 @@ services:
     container_name: product-composite-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "7001:7001"
     depends_on:
       eureka-server:
         condition: service_healthy
