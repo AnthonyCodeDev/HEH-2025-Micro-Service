@@ -14,18 +14,17 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
 product:
   service:
-    url: http://product
+    url: http://localhost:7002
 
 review:
   service:
-    url: http://review
+    url: http://localhost:7004
 
 recommendation:
   service:
-    url: http://recommendation
+    url: http://localhost:7003
 
 ---
 spring:
