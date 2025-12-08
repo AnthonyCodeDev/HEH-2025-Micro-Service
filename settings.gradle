@@ -1,4 +1,5 @@
 rootProject.name = 'ProjetMicroService'
+include ':gateway-service'
 include ':product-service'
 include ':review-service'
 include ':recommendation-service'
