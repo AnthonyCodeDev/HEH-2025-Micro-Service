@@ -11,7 +11,7 @@ echo All services are starting!
 echo ====================================
 echo.
 echo Services:
-echo - Eureka Server: http://localhost:8761
+echo - Gateway: http://localhost:8080
 echo - Product Service: http://localhost:7002
 echo - Recommendation Service: http://localhost:7003
 echo - Review Service: http://localhost:7004
