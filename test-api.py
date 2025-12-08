@@ -3,10 +3,13 @@ import subprocess
 import time
 
 def curl(method, url, data=None):
-    cmd = ["curl", "-s", "-X", method, url]
+    cmd = ["curl", "-X", method, url]
     if data:
         cmd.extend(["-H", "Content-Type: application/json", "-d", data])
-    subprocess.run(cmd)
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    print(result.stdout)
+    if result.stderr:
+        print(result.stderr)
 
 print("Testing API...\n")
 
@@ -24,4 +27,4 @@ time.sleep(1)
 
 print("\n4. Get composite")
 curl("GET", "http://localhost:7001/product-composite/1")
-print("\n\n✓ Tests done!")
+print("\n✓ Tests done!")
