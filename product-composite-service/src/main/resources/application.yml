@@ -14,31 +14,17 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
-eureka:
-  instance:
-    prefer-ip-address: true
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 5
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    initialInstanceInfoReplicationIntervalSeconds: 5
-    registryFetchIntervalSeconds: 5
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
 product:
   service:
-    url: http://product
+    url: http://localhost:7002
 
 review:
   service:
-    url: http://review
+    url: http://localhost:7004
 
 recommendation:
   service:
-    url: http://recommendation
+    url: http://localhost:7003
 
 ---
 spring:
@@ -47,11 +33,6 @@ spring:
       on-profile: docker
   kafka:
     bootstrap-servers: kafka:9092
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka-server:8761/eureka
 
 product:
   service:
