@@ -9,34 +9,19 @@ spring:
       trusted-proxies: ".*"
       routes:
         - id: product-composite
-          uri: lb://product-composite
+          uri: http://product-composite-service:7001
           predicates:
             - Path=/product-composite/**
-        - id: eureka-web-start
-          uri: http://${app.eureka-server}:8761
-          predicates:
-            - Path=/eureka/web
-          filters:
-            - SetPath=/
-
-app:
-  eureka-server: localhost
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${app.eureka-server}:8761/eureka/
-    initialInstanceInfoReplicationIntervalSeconds: 5
-    registryFetchIntervalSeconds: 5
-  instance:
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 5
 
 ---
 spring:
   config:
     activate:
       on-profile: docker
-
-app:
-  eureka-server: eureka-server
+  cloud:
+    gateway:
+      routes:
+        - id: product-composite
+          uri: http://product-composite-service:7001
+          predicates:
+            - Path=/product-composite/**
